@@ -12,10 +12,10 @@ async function connect() {
     return singleton;
 }
 
-async function findALL(collection) {
+async function findAll(collection) {
     const db = await connect();
-    return db.collection(collection).findALL().toArray();
+    return db.collection(collection).find().toArray();
 }
 
-module.exports = { findALL}
+module.exports = { findAll}
 
