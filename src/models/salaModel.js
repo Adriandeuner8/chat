@@ -1,6 +1,14 @@
 const db = require("./db");
-async function listarSalas() {
-    return await db.findAll("salas");
-}
 
-module.exports = {listarSalas};
+let listarSalas = async ()=>{
+    let salas= await db.findAll("salas");
+    return salas;
+};
+
+let buscarSala = async (idsala)=>{
+    return db.findOne("salas",idsala);
+};
+  
+
+
+module.exports = {listarSalas, buscarSala};
