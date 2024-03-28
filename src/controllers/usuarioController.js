@@ -1,4 +1,4 @@
-const token = require("../util/token.js");
+const token = require("../util/token");
 const usuarioModel = require("../models/usuarioModel");
 
 exports.entrar=async(nick)=>{
@@ -10,14 +10,4 @@ exports.entrar=async(nick)=>{
             "token": await token.setToken(JSON.stringify(resp.insertedId).replace(/"/g, ''),nick),
             "nick":nick}
     }
-}
-
-let buscarUsuario = async (idUser)=>{
-    let user = await db.findOne("usuarios",idUser);
-    return user;
-}
-
-
-let alterarUsuario = async (user)=>{
-  return await db.updateOne("usuarios", user,{_id:user._id});
 }
