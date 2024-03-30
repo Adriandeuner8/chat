@@ -43,7 +43,6 @@ app.use("/salas",router.get("/salas", async (req, res, next) => {
 app.use("/sala/entrar", router.put("/sala/entrar", async (req, res, next)=>{
     if(!token.checkToken(req.headers.token,req.headers.iduser,req.headers.nick)) 
     return false;
-    console.log('aqui');
     let resp= await salaController.entrar(req.headers.iduser, req.query.idsala);
     res.status(200).send(resp);
   } 
