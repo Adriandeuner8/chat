@@ -37,9 +37,6 @@ let updateOne= async (collection, object, param)=>{
   let result= await db.collection(collection).updateOne(param, { $set: object} );
   return result;
 }
-
-  
-
-
+ 
 module.exports = { findAll, insertOne, findOne, updateOne};
 

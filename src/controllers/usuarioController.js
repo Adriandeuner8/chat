@@ -2,7 +2,6 @@ const token = require("../util/token");
 const usuarioModel = require("../models/usuarioModel");
 
 exports.entrar=async(nick)=>{
-    console.log(nick);
     let resp = await usuarioModel.registrarUsuario(nick);
     if(resp.insertedId){
         return {

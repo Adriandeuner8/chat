@@ -41,3 +41,21 @@ exports.buscarMensagens = async (idsala, timestamp)=>{
     "msgs":mensagens
   };
 }  
+// sair
+exports.sair = async (idUser, idsala) => {
+    
+  let usuarioNaSala= await salaModel.verificarUsuarioNaSala(idUser, idsala);
+    
+    if (usuarioNaSala) {
+      const removido = await salaModel.removerUsuarioDaSala(idUser, idsala);
+      
+      if (removido) {
+        return { msg: "Usuário removido da sala com sucesso." };
+      } else {
+        throw new Error("Erro ao remover o usuário da sala.");
+      }
+    } else {
+      throw new Error("O usuário não está na sala.");
+    }
+};
+
