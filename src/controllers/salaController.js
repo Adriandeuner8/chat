@@ -1,4 +1,5 @@
 const salaModel = require("../models/salaModel");
+const usuarioModel = require('../models/usuarioModel');
 
 exports.get= async (req, res) => {
     return await salaModel.listarSalas();
@@ -6,9 +7,8 @@ exports.get= async (req, res) => {
  
 exports.entrar= async (iduser,idsala)=>{
     const sala = await salaModel.buscarSala(idsala);
-
-    let usuarioModel=require('../models/usuarioModel');
     let user = await usuarioModel.buscarUsuario(iduser);
+
     user.sala = {_id:sala._id, nome:sala.nome, tipo:sala.tipo};
     
     if(await usuarioModel.alterarUsuario(user)){
@@ -41,21 +41,29 @@ exports.buscarMensagens = async (idsala, timestamp)=>{
     "msgs":mensagens
   };
 }  
-// sair
-exports.sair = async (idUser, idsala) => {
+// sair da sala
+exports.sair = async (iduser) => {
+    let user = await usuarioModel.buscarUsuario(iduser);
+  
+    user.sala = null;
+    if (await usuarioModel.alterarUsuario(user)) {
+      return await salaModel.listarSalas();
+    }
+    return false;
+};
+
+// sair Usuario
+exports.sairUser = async (idUser) => {
+    let user = await usuarioModel.buscarUsuario(idUser);
     
-  let usuarioNaSala= await salaModel.verificarUsuarioNaSala(idUser, idsala);
-    
-    if (usuarioNaSala) {
-      const removido = await salaModel.removerUsuarioDaSala(idUser, idsala);
-      
-      if (removido) {
-        return { msg: "Usuário removido da sala com sucesso." };
-      } else {
-        throw new Error("Erro ao remover o usuário da sala.");
-      }
+    if (!user) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    if (await salaModel.removerUsuario(idUser)) {
+      return { msg: "OK" };
     } else {
-      throw new Error("O usuário não está na sala.");
+      return false;
     }
 };
 

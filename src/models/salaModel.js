@@ -16,7 +16,6 @@ let atualizarMensagens=async (sala)=>{
   
 let buscarMensagens = async (idsala, timestamp)=>{
     let sala = await buscarSala(idsala);
-    console.log(sala);
     if(sala.msgs){
       let msgs=[];
       sala.msgs.forEach((msg)=>{
@@ -29,23 +28,20 @@ let buscarMensagens = async (idsala, timestamp)=>{
   return [];
 }
 
-let verificarUsuarioNaSala = async (idUser, idSala) => {
-  const sala = await db.findOne("salas", idSala);
-  if (!sala) {
-    throw new Error("Sala não encontrada.");
-  }
-  return sala.usuario.includes(idUser);
+let sairSala = async (idsala) => {
+  let salas = await db.findAll("salas");
+  return salas;
+}
+
+let removerUsuario = async (idUser) => {
+    let result = await db.deleteOne("usuario", { _id: new ObjectId(idUser) });
+    
+
+    if (result.deletedCount === 1) {
+      return true;
+    } else {
+      throw new Error("Erro ao remover o usuário.");
+    }
 };
 
-let removerUsuarioDaSala = async (idUser, idSala) => {
-  const result = await db.updateOne("salas", { $pull: { usuario: idUser } }, { _id: idSala });  
-  if (result == 1) {
-    return true; 
-  } else {
-    return false; 
-  }
-};
-
-
-
-module.exports = {listarSalas, buscarSala, atualizarMensagens, buscarMensagens, verificarUsuarioNaSala, removerUsuarioDaSala};
+module.exports = {listarSalas, buscarSala, atualizarMensagens, buscarMensagens, sairSala, removerUsuario};

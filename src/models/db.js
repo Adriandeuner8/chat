@@ -1,5 +1,6 @@
 const { MongoClient, ObjectId} = require('mongodb');
 
+
 let singleton;
 
 async function connect() {
@@ -37,6 +38,13 @@ let updateOne= async (collection, object, param)=>{
   let result= await db.collection(collection).updateOne(param, { $set: object} );
   return result;
 }
+
+let deleteOne = async (collection, param) => {
+  const db = await connect();
+  let result = await db.collection(collection).deleteOne(param);
+  return result;
+}
+
  
-module.exports = { findAll, insertOne, findOne, updateOne};
+module.exports = { findAll, insertOne, findOne, updateOne, deleteOne};
 

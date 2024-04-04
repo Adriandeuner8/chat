@@ -63,10 +63,18 @@ app.use("/sala/mensagens/", router.get("/sala/mensagens", async (req, res) => {
   }))
   
 // sair da sala
-app.use("/salas/sair", router.put("/salas/sair", async (req, res, next)=>{
+app.use("/sala/sair", router.put("/sala/sair", async (req, res) => {
   if(!token.checkToken(req.headers.token,req.headers.iduser,req.headers.nick)) 
   return false;
-  let resp= await salaController.sair(req.query.idUser, req.query.idsala);
+  let resp= await salaController.sair(req.headers.iduser);
+  res.status(200).send(resp);
+}))
+
+// sair Usuario
+app.use("/sair-user", router.post("/sair-user", async (req, res) => {
+  if(!token.checkToken(req.headers.token,req.headers.idUser,req.headers.nick)) 
+  return false;
+  let resp= await salaController.sairUser(req.query.idUser);
   res.status(200).send(resp);
 }))
 
