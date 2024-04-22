@@ -7,7 +7,7 @@ const salaController = require("./controllers/salaController.js");
 const usuarioController = require("./controllers/usuarioController.js");
 
 const corsOptions = {
-  origin: "http://127.0.0.1:5501"
+  origin: "*"
 };
 
 app.use(cors(corsOptions));
