@@ -6,9 +6,7 @@ const token = require("./util/token.js");
 const salaController = require("./controllers/salaController.js");
 const usuarioController = require("./controllers/usuarioController.js");
 
-app.use(cors({
-  origin: 'https://chat-320f.onrender.com'
-}));
+app.use(cors());
 
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
